@@ -72,7 +72,6 @@ def calculate_surplus_data(sales_row):
         surplus_data.append(surplus)
 
     return surplus_data
-    
 
 # def update_sales_worksheet(data):
 #     """
@@ -106,7 +105,9 @@ def update_worksheet(data, worksheet):
 
 def get_last_5_entries_sales():
     """
-
+    Collects columns of data from sales worksheet, collecting
+    the last 5 entries for each sandwich and returns the data
+    as a list of lists.
     """
     sales = SHEET.worksheet("sales")
 
@@ -118,6 +119,22 @@ def get_last_5_entries_sales():
     return columns
 
 
+def calculate_stock_data(data):
+    """
+    Calculate the average stock for each item type, adding 10%
+    """
+    print("Calculating stock data...\n")
+    new_stock_data = []
+
+    for column in data:
+        int_column = [int(num) for num in column]
+        average = sum(int_column) / len(int_column)
+        stock_num = average * 1.1
+        new_stock_data.append(round(stock_num))
+
+    return new_stock_data
+
+
 def main():
     """
     Run all program functions
@@ -127,9 +144,29 @@ def main():
     update_worksheet(sales_data, "sales")
     new_surplus_data = calculate_surplus_data(sales_data)
     update_worksheet(new_surplus_data, "surplus")
+    sales_columns = get_last_5_entries_sales()
+    stock_data = calculate_stock_data(sales_columns)
+    update_worksheet(stock_data, "stock")
+    return stock_data
 
 
-print("Welcome to Love Sandwiches Data Automation")
-# main()
+print("Welcome to Love Sandwiches data automation.\n")
+stock_data = main()
 
-sales_columns = get_last_5_entries_sales()
+
+def get_stock_values(data):
+    print("Make the following numbers of sandwiches for next market:\n")
+
+    stock = SHEET.worksheet("stock")
+    headers = []
+    for ind in range(1, 7):
+        column = stock.col_values(ind)
+        headers.append(column[0])
+        print(headers)
+    headings = headers
+    print(headings)
+    return {headings[i]: data[i] for i in range(len(headings))}
+
+
+stock_values = get_stock_values(stock_data)
+print(stock_values)
