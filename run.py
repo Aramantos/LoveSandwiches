@@ -162,11 +162,9 @@ def get_stock_values(data):
     for ind in range(1, 7):
         column = stock.col_values(ind)
         headers.append(column[0])
-        print(headers)
     headings = headers
-    print(headings)
     return {headings[i]: data[i] for i in range(len(headings))}
-
+    
 
 stock_values = get_stock_values(stock_data)
 print(stock_values)
