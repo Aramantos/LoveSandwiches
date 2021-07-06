@@ -1,5 +1,5 @@
 import gspread
-from pprint import pprint
+# from pprint import pprint
 from google.oauth2.service_account import Credentials
 
 SCOPE = [
@@ -28,7 +28,7 @@ def get_sales_data():
 
         data_str = input("Enter your data here: ")
 
-        sales_data = data_str.split(",") 
+        sales_data = data_str.split(",")
 
         if validate_data(sales_data):
             print("Data is valid!")
@@ -47,7 +47,7 @@ def validate_data(values):
         [int(value) for value in values]
         if len(values) != 6:
             raise ValueError(
-        f"Exactly 6 values required, you provided {len(values)}")
+                    f"Exactly 6 values required, you provided {len(values)}")
     except ValueError as e:
         print(f"Invalid data: {e}, please try again.\n")
         return False
@@ -164,7 +164,7 @@ def get_stock_values(data):
         headers.append(column[0])
     headings = headers
     return {headings[i]: data[i] for i in range(len(headings))}
-    
+
 
 stock_values = get_stock_values(stock_data)
 print(stock_values)
